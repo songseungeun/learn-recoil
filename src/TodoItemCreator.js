@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { todoListState } from "./states/todoList";
 
-function TodoItemCreator() {
+export default function TodoItemCreator() {
   const [inputValue, setInputValue] = useState("");
-  const setTodoList = useSetRecoilState(todoListState);
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
-  const addItem = () => {
-    setTodoList(oldTodoList => [
-      ...oldTodoList,
-      { id: getId(), text: inputValue, isComplete: false }
+  const generateId = () => {
+    return todoList.length ? Math.max(...todoList.map(todo => todo.id)) + 1 : 1;
+  };
+
+  const addTodoItem = () => {
+    setTodoList(prev => [
+      ...prev,
+      { id: generateId(), text: inputValue, isComplete: false }
     ]);
 
     setInputValue("");
@@ -22,15 +26,8 @@ function TodoItemCreator() {
   return (
     <div>
       <input type="text" value={inputValue} onChange={onChange} />
-      <button onClick={addItem}>Add</button>
+
+      <button onClick={addTodoItem}>Add</button>
     </div>
   );
-}
-
-export default TodoItemCreator;
-
-let id = 0;
-
-function getId() {
-  return id++;
 }

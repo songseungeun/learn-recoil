@@ -4,18 +4,18 @@ import { todoListState } from "./states/todoList";
 import TodoItem from "./TodoItem";
 import TodoItemCreator from "./TodoItemCreator";
 
-function TodoList() {
+export default function TodoList() {
   const todoList = useRecoilValue(todoListState);
 
   return (
     <>
       <TodoItemCreator />
 
-      {todoList.map(todoItem => (
-        <TodoItem key={todoItem.id} item={todoItem} />
-      ))}
+      <ul>
+        {todoList.map(todoItem => (
+          <TodoItem key={todoItem.id} item={todoItem} />
+        ))}
+      </ul>
     </>
   );
 }
-
-export default TodoList;
